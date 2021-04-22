@@ -30,7 +30,10 @@ def LCSubStr(X, Y, m, n):
 						common.append(Y[i-1])
 				except:
 					pass
-	return length,common
+		if Y[len(Y)-length] == X[length]:
+			length += LCSubStr(Y[len(Y)-length:len(Y)],X[length:len(X)],len(Y[len(Y)-length:len(Y)]),len(X[length:len(X)]))
+			
+	return length
 
 
 # Driver Code
