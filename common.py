@@ -1,30 +1,51 @@
-def common(l1,l2):#takes lab and sb and returns offset and the number of common characters
+def LCSubStr(X, Y, m, n):
+
+	LCSS = [[0 for k in range(n+1)] for l in range(m+1)]
+
+
+	result = 0
+	length = 0
 	common = []
-	offset = 0
 
-	if(l2[0] in l1):# find lcs only if 1st char in l2 exists in l1
-		for i in range(len(l2)):
-			for j in range(len(l1)):
-				if(len(common)==0):
-					if(l1[j] == l2[i]):
-						common.append(l1[j])
-						offset = len(l1)-j
-						break;
-				elif(len(common)>0 and (j>0 and l1[j-1] == l2[i-1]) and l1[j] == l2[i]):
-					common.append(l1[j])
+	if(X[0] in Y):
+		for i in range(m + 1):
+			for j in range(n + 1):
+				if (i == 0 or j == 0):
+					LCSS[i][j] = 0
+				elif (X[i-1] == Y[j-1]):
+					LCSS[i][j] = LCSS[i-1][j-1] + 1
+					result = max(result, LCSS[i][j])
+				else:
+					LCSS[i][j] = 0
+		
+		for i in range(n + 1):
+			if LCSS[1][i] ==  1 and not length:
+				length = 1
+				common.append(Y[i-1])
+				continue
+			if length :
+				try:
+					if LCSS[length+1][i]:
+						length += 1
+						common.append(Y[i-1])
+				except:
+					pass
+	return length,common
 
 
-	print("".join(common))
+# Driver Code
+X = 'rarrad'     #lab
+Y = 'adabrar'   #sb
 
-	print(offset)
-	return offset,len(common)
+X1 = [i for i in X]
+Y1 = [j for j in Y]
+# X = 'ofghxx'    lab
+# Y = 'xxxxoof'   sb
 
 
-#str1 = 'abcdaf'
-#str2 = 'bcdf'
-str1 = 'bfcbab'
-str2 = 'bfcr'
-l1 = list(str1)
-l2 = list(str2)
-common(l1,l2)
-# print(common(l1,l2))
+
+m = len(X1)
+n = len(Y1)
+
+print('Length of Longest Common Substring is',
+	LCSubStr(X1, Y1, m, n))
