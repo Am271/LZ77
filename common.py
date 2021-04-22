@@ -1,9 +1,7 @@
-def LCSubStr(X, Y, m, n):
+def compare(X, Y, m, n):
 
 	LCSS = [[0 for k in range(n+1)] for l in range(m+1)]
 
-
-	result = 0
 	length = 0
 	common = []
 	offset = 0
@@ -15,7 +13,6 @@ def LCSubStr(X, Y, m, n):
 					LCSS[i][j] = 0
 				elif (X[i-1] == Y[j-1]):
 					LCSS[i][j] = LCSS[i-1][j-1] + 1
-					result = max(result, LCSS[i][j])
 				else:
 					LCSS[i][j] = 0
 		# print(LCSS)
@@ -23,22 +20,22 @@ def LCSubStr(X, Y, m, n):
 			if LCSS[1][i] ==  1 and not length:
 				length = 1
 				common.append(Y[i-1])
-				offset = i
+				offset = len(Y) - i + 1
 				continue
 			if length:
 				try:
 					if LCSS[length+1][i] and LCSS[length][i-1]:
 						length += 1
 						common.append(Y[i-1])
-						offset = i
 				except:
 					pass
 			
 		# print(length)
-		tY = Y[offset - 1:offset - 1 + length]
+		tY = Y[len(Y) - offset:len(Y) - offset + length]
 		tX = X[length:]
 		if tY[0] == X[length]:
-			length += LCSubStr(tX, tY, len(tX), len(tY))
+			dummy, tlength = compare(tX, tY, len(tX), len(tY))
+			length += tlength
 			
 	return offset, length
 
@@ -47,8 +44,11 @@ def LCSubStr(X, Y, m, n):
 # X = 'rarrad'     #lab
 # Y = 'adabrar'   #sb
 
-X = 'ofghxx'	#lab
-Y = 'xxxoxxf'	#sb
+# X = 'ofghxx'	#lab
+# Y = 'xxxoxxf'	#sb
+
+X = 'rarrax'
+Y = 'xwdxrar'
 
 # X = 'bbcxdf'
 # Y = 'asfbbac'
@@ -59,4 +59,5 @@ Y1 = [j for j in Y]
 m = len(X1)
 n = len(Y1)
 
-print(LCSubStr(X1, Y1, m, n))
+print('Length of Longest Common Substring is',
+	compare(X1, Y1, m, n))
