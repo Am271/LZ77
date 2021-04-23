@@ -1,63 +1,69 @@
-def compare(X, Y, m, n):
-
+def LCSubStr(X, Y, m, n):
+	#initializing all elements with a default value of zero 
 	LCSS = [[0 for k in range(n+1)] for l in range(m+1)]
 
-	length = 0
-	common = []
-	offset = 0
+	result = 0
+	note_down = 0 #Holds the row number at which the lenght of LCS THAT OCCURS FIRST is found
 
 	if(X[0] in Y):
 		for i in range(m + 1):
 			for j in range(n + 1):
 				if (i == 0 or j == 0):
 					LCSS[i][j] = 0
-				elif (X[i-1] == Y[j-1]):
+				elif (X[i-1] == Y[j-1] and i == 1):
 					LCSS[i][j] = LCSS[i-1][j-1] + 1
+					result = max(result, LCSS[i][j])
+					note_down = i
+				elif (X[i-1] == Y[j-1] and LCSS[i-1][j-1] == i-1):#increment only when the previous diagonal element value 
+					LCSS[i][j] = LCSS[i-1][j-1] + 1				  #matches the previous row number (i-1) which inturn was 
+					result = max(result, LCSS[i][j])			  #incremented from a row value sub to the 2nd row
+					note_down = i     							  #Note that 1st row is always zero
 				else:
 					LCSS[i][j] = 0
-		# print(LCSS)
-		for i in range(n + 1):
-			if LCSS[1][i] ==  1 and not length:
-				length = 1
-				common.append(Y[i-1])
-				offset = len(Y) - i + 1
-				continue
-			if length:
-				try:
-					if LCSS[length+1][i] and LCSS[length][i-1]:
-						length += 1
-						common.append(Y[i-1])
-				except:
-					pass
-			
-		# print(length)
-		tY = Y[len(Y) - offset:len(Y) - offset + length]
-		tX = X[length:]
-		if tY[0] == X[length]:
-			dummy, tlength = compare(tX, tY, len(tX), len(tY))
-			length += tlength
-			
-	return offset, length
+		m=max(LCSS[note_down])
+		offset = n-LCSS[note_down].index(m) + result	 #n = size of sb, n-index of max + result(which is the lenght of LCSS)
 
+		# temporary Y refers to the new sb in recursion case
+		tY = X[:result] #it can alternatively be tY = Y[len(Y)-offset:len(Y)-offset+result]
+		# temporary X refers to the new lab in recursion case
+		tX = X[result:] 
+		# recursion condition 
+		if tY[0] == X[result]:#true only when the first element of lab is repeated at length of LCSS(result) index position
+			dummy, tlength = LCSubStr(tX, tY, len(tX), len(tY)) #dummy holds the offset that is later discarded
+			result += tlength									#since we do not need the new offset of value in recursion case
+	return offset,result
 
 # Driver Code
-# X = 'rarrad'     #lab
-# Y = 'adabrar'   #sb
+X = 'rarrad'     #lab
+Y = 'adabrar'   #sb
 
-# X = 'ofghxx'	#lab
-# Y = 'xxxoxxf'	#sb
+# X = 'bbcrcc' #lab
+# Y = 'bfcbbac'  	#sb
 
-X = 'rarrax'
-Y = 'xwdxrar'
+# X = 'raxdar' #lab
+# Y = 'daqxraq' #sb
 
-# X = 'bbcxdf'
-# Y = 'asfbbac'
+# X = 'raxdar' #lab
+# Y = 'darxrag' #sb
 
+# X = 'ofghxx'    #lab
+# Y = 'xxxoofg'   #sb
+
+# X = 'abmzx' #lab
+# Y = 'qabxmz' #sb
+
+# X = 'raxdar' #lab
+# Y = 'daraxag' #sb
+
+# X = 'ofghxx'  #lab
+# Y = 'xxxoxxf' #sb
+ 
 X1 = [i for i in X]
 Y1 = [j for j in Y]
 
-m = len(X1)
-n = len(Y1)
+
+m = len(X1) # number of rows
+n = len(Y1) #number of columns
 
 print('Length of Longest Common Substring is',
-	compare(X1, Y1, m, n))
+	LCSubStr(X1, Y1, m, n))
