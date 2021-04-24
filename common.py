@@ -24,18 +24,22 @@ def LCSubStr(X, Y, m, n):
 		offset = n-LCSS[note_down].index(m) + result	 #n = size of sb, n-index of max + result(which is the lenght of LCSS)
 
 		# temporary Y refers to the new sb in recursion case
-		tY = X[:result] #it can alternatively be tY = Y[len(Y)-offset:len(Y)-offset+result]
+		# tY = X[:result] #it can alternatively be tY = Y[len(Y)-offset:len(Y)-offset+result]
 		# temporary X refers to the new lab in recursion case
-		tX = X[result:] 
+		tX = X[result:]
+		tY = Y[len(Y)-offset:]
 		# recursion condition 
-		if tY[0] == X[result]:#true only when the first element of lab is repeated at length of LCSS(result) index position
+		if tY[0] == X[result] and result == len(tY):#true only when the first element of lab is repeated at length of LCSS(result) index position
 			dummy, tlength = LCSubStr(tX, tY, len(tX), len(tY)) #dummy holds the offset that is later discarded
 			result += tlength									#since we do not need the new offset of value in recursion case
 	return offset,result
 
 # Driver Code
-X = 'rarrad'     #lab
-Y = 'adabrar'   #sb
+# X = 'rarrad'     #lab
+# Y = 'adabrar'   #sb
+
+X = 'opoppp' #lookahead buffer
+Y = 'xxoppyu' #search buffer
 
 # X = 'bbcrcc' #lab
 # Y = 'bfcbbac'  	#sb
