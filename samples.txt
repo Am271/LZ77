@@ -1,0 +1,66 @@
+oppyuopopppopoy
+
+0 0 o
+0 0 p
+1 1 y
+0 0 u 
+5 2 o
+7 2 p
+6 3 y
+
+uigghdducgiuchuh
+
+0 0 u
+0 0 i
+0 0 g
+1 1 h
+0 0 d
+1 1 u
+0 0 c
+6 1 i (or) 7 1 i
+4 2 h
+7 1 h (or) 3 1 h
+
+hraharulalhlulur
+
+0 0 h
+0 0 r
+0 0 a
+3 1 a
+4 1 u
+0 0 l
+4 1 l (or) 6 1 l
+7 1 l
+6 2 u
+0 0 r
+
+anndnanandnnnadd
+
+0 0 a
+0 0 n
+1 1 d
+2 1 a
+2 2 n
+6 2 n
+6 2 d
+1 1 _
+
+piaiakkkiaka
+
+0 0 p
+0 0 i
+0 0 a
+2 2 k
+1 1 k
+5 3 a
+
+gblblllbgbbobbol
+
+0 0 g
+0 0 b
+0 0 l
+2 2 l
+4 2 g
+2 1 b
+0 0 o
+3 3 l

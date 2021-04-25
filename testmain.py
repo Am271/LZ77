@@ -71,32 +71,19 @@ def decode(L, declist):
         decstr = "".join(declist)
     return decstr
 
-def menu():
-	choice = input('1. Generate a random string\n2. Enter a string\n> ')
-	# choice = '1'
-	if choice == '2':
-		strinp = input('String: ')
-	elif choice == '1':
-		base = input('Source characters: ')
-		strinp = genStr(base, 16)
-	else:
-		print('Try again')
-		exit()
-	return strinp
+def readFile():
+    f = open('data.txt')
+    data = f.readlines()
+    newstr = ' '.join(data)
+    newstr = newstr.split('\n')
+    data = ''.join(newstr)
+    f.close()
+    return data
 
-def getsize():
-	print('Look-ahead buffer size: 6\nSearch buffer size: 7')
-	choice = input('1. Let it remain the same\n2. Change buffers\' size\n> ' )
-	if choice == '1':
-		a = 6; b = 7
-	else:
-		a = int(input('New search buffer size: '))
-		b = int(input('New look-ahead buffer size: '))
-		print('Size changed!')
-	return a, b
-
-strin = menu()
-labufsize, sbufsize = getsize()
+# strin = menu()
+# labufsize, sbufsize = getsize()
+labufsize, sbufsize = 500, 600
+strin = readFile()
 
 sbuf = ['_' for i in range(sbufsize)]; labuf = []; o = 0; l = 0; olclist = []; k = labufsize
 
@@ -118,7 +105,15 @@ while True:
 for i in olclist:
 	print(vars(i))
 
+print('Encoding done!')
 strout = decode(olclist, [])
-strout = strout.strip('_')
-print('Input string: ' + strin + '\nOutput string: ' + strout)
+# print('Input string: ' + strin + '\nOutput string: ' + strout)
+print('Decoding done!')
+if strout[-1] == '_':
+	strin = strin + '_'
+if strin == strout:
+	inte = 'OK'
+else:
+	inte = 'Failed'
+print(inte)
 # print(strout == strin)
