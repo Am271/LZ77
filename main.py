@@ -46,6 +46,29 @@ def LCSubStr(X, Y, m, n):
 			result += tlength
 	return offset,result
 
+def encode(strin, sbuf, labuf, sbufsize, labufsize):
+	o = 0; l = 0; olclist = []; k = labufsize
+	for i in range(labufsize):
+		labuf.append(strin[i])
+
+	while True:
+		o, l = LCSubStr(labuf, sbuf, len(labuf), len(sbuf))
+		olclist.append(olc(o, l, labuf[l]))
+		if labuf[1] == '_':
+			break
+		for j in range(l + 1):
+			slide(sbuf, labuf[0])
+			if k < len(strin):
+				slide(labuf, strin[k])
+				k += 1
+			else:
+				slide(labuf, '_')
+	return olclist
+
+def print_encoding(olclist):
+	for i in olclist:
+		print(vars(i))
+
 def decode(L, declist):
     global sbufsize
     flag = ['x' for i in L if not i.offset < sbufsize + 1 and i.length < sbufsize + 1]
@@ -91,27 +114,10 @@ def getsize():
 
 strin = menu()
 labufsize, sbufsize = getsize()
+sbuf = ['_' for i in range(sbufsize)]; labuf = []
 
-sbuf = ['_' for i in range(sbufsize)]; labuf = []; o = 0; l = 0; olclist = []; k = labufsize
-
-for i in range(labufsize):
-	labuf.append(strin[i])
-
-while True:
-	o, l = LCSubStr(labuf, sbuf, len(labuf), len(sbuf))
-	olclist.append(olc(o, l, labuf[l]))
-	if labuf[1] == '_':
-		break
-	for j in range(l + 1):
-		slide(sbuf, labuf[0])
-		if k < len(strin):
-			slide(labuf, strin[k])
-			k += 1
-		else:
-			slide(labuf, '_')
-
-for i in olclist:
-	print(vars(i))
+olclist = encode(strin, sbuf, labuf, sbuf, labufsize)
+print_encoding(olclist)
 
 strout = decode(olclist, [])
 strout = strout.strip('_')
