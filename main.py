@@ -95,7 +95,8 @@ def menu():
 		strinp = input('String: ')
 	elif choice == '1':
 		base = input('Source characters: ')
-		strinp = genStr(base, 16)
+		ssize = int(input('String size: '))
+		strinp = genStr(base, ssize)
 	else:
 		print('Try again')
 		exit()
