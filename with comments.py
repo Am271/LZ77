@@ -6,6 +6,7 @@ class olc:
         self.character = c
 
 def slide(buf, ch):
+    #buf is the buffer that will be slided, ch is the character that will be added at the last position after sliding
     for i in range(len(buf)-1):
         buf[i] = buf[i + 1]
     buf[len(buf) - 1] = ch
@@ -15,11 +16,12 @@ def genStr(sst, leN):
     return ''.join(stg)
 
 def LCSubStr(X, Y, m, n):
+	#initializing all elements with a default value of zero
 	LCSS = [[0 for k in range(n+1)] for l in range(m+1)]
 
 	offset = 0
 	result = 0
-	note_down = 0
+	note_down = 0 #Holds the row number at which the lenght of LCS THAT OCCURS FIRST is found
 
 	if(X[0] in Y):
 		for i in range(m + 1):
@@ -30,20 +32,24 @@ def LCSubStr(X, Y, m, n):
 					LCSS[i][j] = LCSS[i-1][j-1] + 1
 					result = max(result, LCSS[i][j])
 					note_down = i
-				elif (X[i-1] == Y[j-1] and LCSS[i-1][j-1] == i-1):
-					LCSS[i][j] = LCSS[i-1][j-1] + 1
-					result = max(result, LCSS[i][j])
-					note_down = i
+				elif (X[i-1] == Y[j-1] and LCSS[i-1][j-1] == i-1):#increment only when the previous diagonal element value
+					LCSS[i][j] = LCSS[i-1][j-1] + 1				  #matches the previous row number (i-1) which inturn was
+					result = max(result, LCSS[i][j])			  #incremented from a row value sub to the 2nd row
+					note_down = i     							  #Note that 1st row is always zero
 				else:
 					LCSS[i][j] = 0
 		m=max(LCSS[note_down])
-		offset = n-LCSS[note_down].index(m) + result
+		offset = n-LCSS[note_down].index(m) + result	 #n = size of sb, n-index of max + result(which is the lenght of LCSS)
 
+		# temporary Y refers to the new sb in recursion case
+		# tY = X[:result] #it can alternatively be tY = Y[len(Y)-offset:len(Y)-offset+result]
+		# temporary X refers to the new lab in recursion case
 		tX = X[result:]
 		tY = Y[len(Y)-offset:]
-		if tY[0] == X[result] and result == len(tY):
-			dummy, tlength = LCSubStr(tX, tY, len(tX), len(tY))
-			result += tlength
+		# recursion condition
+		if tY[0] == X[result] and result == len(tY):#true only when the first element of lab is repeated at length of LCSS(result) index position
+			dummy, tlength = LCSubStr(tX, tY, len(tX), len(tY)) #dummy holds the offset that is later discarded
+			result += tlength									#since we do not need the new offset of value in recursion case
 	return offset,result
 
 def decode(L, declist):
@@ -109,10 +115,10 @@ while True:
 			k += 1
 		else:
 			slide(labuf, '_')
-
 for i in olclist:
 	print(vars(i))
 
 strout = decode(olclist, [])
 strout = strout.strip('_')
 print('Input string: ' + strin + '\nOutput string: ' + strout)
+# print(strout == strin)
